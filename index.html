@@ -1207,18 +1207,84 @@
 
     const urlParams = new URLSearchParams(window.location.search);
 
+    function createSessionId() {
+      return "aibos_" + Date.now() + "_" + Math.random().toString(36).substring(2, 12);
+    }
+
+    function setSessionValue(key, value) {
+      if (!sessionStorage.getItem(key) && value) {
+        sessionStorage.setItem(key, value);
+      }
+    }
+
+    function getSessionValue(key) {
+      return sessionStorage.getItem(key) || "";
+    }
+
+    function getUrlOrSessionParam(queryKey, storageKey) {
+      const value = urlParams.get(queryKey);
+
+      if (value) {
+        sessionStorage.setItem(storageKey, value);
+        return value;
+      }
+
+      return getSessionValue(storageKey);
+    }
+
+    function getDeviceType() {
+      const width = window.innerWidth;
+
+      if (width <= 767) {
+        return "Mobile";
+      }
+
+      if (width <= 1024) {
+        return "Tablet";
+      }
+
+      return "Desktop";
+    }
+
+    function getBrowserName() {
+      const ua = navigator.userAgent;
+
+      if (ua.includes("Edg/")) return "Microsoft Edge";
+      if (ua.includes("Chrome/") && !ua.includes("Edg/")) return "Google Chrome";
+      if (ua.includes("Safari/") && !ua.includes("Chrome/")) return "Safari";
+      if (ua.includes("Firefox/")) return "Firefox";
+
+      return "Other";
+    }
+
+    if (!getSessionValue("aibos_session_id")) {
+      sessionStorage.setItem("aibos_session_id", createSessionId());
+    }
+
+    setSessionValue("aibos_landing_page", window.location.href);
+    setSessionValue("aibos_referrer", document.referrer || "");
+    setSessionValue("aibos_visit_timestamp", new Date().toISOString());
+
+    getUrlOrSessionParam("utm_source", "aibos_utm_source");
+    getUrlOrSessionParam("utm_medium", "aibos_utm_medium");
+    getUrlOrSessionParam("utm_campaign", "aibos_utm_campaign");
+    getUrlOrSessionParam("utm_term", "aibos_utm_term");
+    getUrlOrSessionParam("utm_content", "aibos_utm_content");
+
     function getTrafficSource() {
-      const utmSource = urlParams.get("utm_source");
+      const utmSource = getSessionValue("aibos_utm_source");
 
       if (utmSource) {
         return utmSource;
       }
 
-      if (document.referrer) {
+      const referrer = getSessionValue("aibos_referrer");
+
+      if (referrer) {
         try {
-          return new URL(document.referrer).hostname;
+          return new URL(referrer).hostname;
         } catch (error) {
-          return document.referrer;
+          return referrer;
         }
       }
 
@@ -1253,12 +1319,20 @@
       formData.append("source", getTrafficSource());
       formData.append("pageUrl", window.location.href);
 
-      formData.append("utmSource", urlParams.get("utm_source") || "");
-      formData.append("utmMedium", urlParams.get("utm_medium") || "");
-      formData.append("utmCampaign", urlParams.get("utm_campaign") || "");
-      formData.append("utmTerm", urlParams.get("utm_term") || "");
-      formData.append("utmContent", urlParams.get("utm_content") || "");
-      formData.append("referrer", document.referrer || "");
+      formData.append("utmSource", getSessionValue("aibos_utm_source"));
+      formData.append("utmMedium", getSessionValue("aibos_utm_medium"));
+      formData.append("utmCampaign", getSessionValue("aibos_utm_campaign"));
+      formData.append("utmTerm", getSessionValue("aibos_utm_term"));
+      formData.append("utmContent", getSessionValue("aibos_utm_content"));
+      formData.append("referrer", getSessionValue("aibos_referrer"));
+
+      formData.append("sessionId", getSessionValue("aibos_session_id"));
+      formData.append("landingPage", getSessionValue("aibos_landing_page"));
+      formData.append("deviceType", getDeviceType());
+      formData.append("browser", getBrowserName());
+      formData.append("screenSize", window.screen.width + "x" + window.screen.height);
+      formData.append("timezone", Intl.DateTimeFormat().resolvedOptions().timeZone || "");
+      formData.append("visitTimestamp", getSessionValue("aibos_visit_timestamp"));
 
       submitButton.disabled = true;
       submitButton.textContent = "Sending...";
