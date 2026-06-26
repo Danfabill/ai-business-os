@@ -4,6 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),
+      dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TBPX5L8X');
+  </script>
+  <!-- End Google Tag Manager -->
+
   <title>AI Business OS | Marketing Systems for Small Businesses</title>
   <meta name="description" content="AI-assisted marketing audits, tracking setup, SEO improvements, reporting, and automation systems for small businesses." />
 
@@ -742,7 +757,14 @@
 </head>
 
 <body>
-  <header>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBPX5L8X"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+<header>
     <div class="container">
       <nav>
         <a href="#" class="logo">AI Business <span>OS</span></a>
@@ -1214,6 +1236,19 @@
   </footer>
 
   <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function trackEvent(eventName, eventData = {}) {
+      window.dataLayer.push({
+        event: eventName,
+        ...eventData
+      });
+
+      if (typeof gtag === "function") {
+        gtag("event", eventName, eventData);
+      }
+    }
+
     const scriptURL = "https://script.google.com/macros/s/AKfycbwYSzXdOnH8jiennZd0m2ALYf-hMG39sAmXB7iCc2mjBbxDFBSCyymlbZMzWD2fFBMh/exec";
 
     const form = document.getElementById("auditForm");
@@ -1221,6 +1256,8 @@
     const formMessage = document.getElementById("formMessage");
 
     const urlParams = new URLSearchParams(window.location.search);
+
+    let formStarted = false;
 
     function createSessionId() {
       return "aibos_" + Date.now() + "_" + Math.random().toString(36).substring(2, 12);
@@ -1276,25 +1313,6 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    function showFormError(message) {
-      formMessage.className = "form-message error";
-      formMessage.textContent = message;
-    }
-
-    if (!getSessionValue("aibos_session_id")) {
-      sessionStorage.setItem("aibos_session_id", createSessionId());
-    }
-
-    setSessionValue("aibos_landing_page", window.location.href);
-    setSessionValue("aibos_referrer", document.referrer || "");
-    setSessionValue("aibos_visit_timestamp", new Date().toISOString());
-
-    getUrlOrSessionParam("utm_source", "aibos_utm_source");
-    getUrlOrSessionParam("utm_medium", "aibos_utm_medium");
-    getUrlOrSessionParam("utm_campaign", "aibos_utm_campaign");
-    getUrlOrSessionParam("utm_term", "aibos_utm_term");
-    getUrlOrSessionParam("utm_content", "aibos_utm_content");
-
     function getTrafficSource() {
       const utmSource = getSessionValue("aibos_utm_source");
 
@@ -1315,6 +1333,78 @@
       return "Direct / Website";
     }
 
+    function showFormError(message, reason = "validation_error") {
+      formMessage.className = "form-message error";
+      formMessage.textContent = message;
+
+      trackEvent("form_error", {
+        form_name: "marketing_audit_request",
+        error_reason: reason,
+        page_url: window.location.href,
+        source: getTrafficSource(),
+        utm_source: getSessionValue("aibos_utm_source"),
+        utm_medium: getSessionValue("aibos_utm_medium"),
+        utm_campaign: getSessionValue("aibos_utm_campaign"),
+        session_id: getSessionValue("aibos_session_id")
+      });
+    }
+
+    if (!getSessionValue("aibos_session_id")) {
+      sessionStorage.setItem("aibos_session_id", createSessionId());
+    }
+
+    setSessionValue("aibos_landing_page", window.location.href);
+    setSessionValue("aibos_referrer", document.referrer || "");
+    setSessionValue("aibos_visit_timestamp", new Date().toISOString());
+
+    getUrlOrSessionParam("utm_source", "aibos_utm_source");
+    getUrlOrSessionParam("utm_medium", "aibos_utm_medium");
+    getUrlOrSessionParam("utm_campaign", "aibos_utm_campaign");
+    getUrlOrSessionParam("utm_term", "aibos_utm_term");
+    getUrlOrSessionParam("utm_content", "aibos_utm_content");
+
+    function getLeadPriorityForTracking(timeline, packageInterest, budgetRange) {
+      const hotTimelines = ["As soon as possible", "This month"];
+      const hotPackages = ["Growth Setup", "Monthly Support"];
+      const hotBudgets = ["$1,000-$3,000/month", "$3,000+/month"];
+
+      const coldTimelines = ["Just exploring"];
+      const coldBudgets = ["Not currently spending", "Under $300/month"];
+
+      if (
+        hotTimelines.includes(timeline) ||
+        hotPackages.includes(packageInterest) ||
+        hotBudgets.includes(budgetRange)
+      ) {
+        return "Hot";
+      }
+
+      if (
+        coldTimelines.includes(timeline) ||
+        coldBudgets.includes(budgetRange)
+      ) {
+        return "Cold";
+      }
+
+      return "Warm";
+    }
+
+    form.addEventListener("input", function() {
+      if (!formStarted) {
+        formStarted = true;
+
+        trackEvent("form_start", {
+          form_name: "marketing_audit_request",
+          page_url: window.location.href,
+          source: getTrafficSource(),
+          utm_source: getSessionValue("aibos_utm_source"),
+          utm_medium: getSessionValue("aibos_utm_medium"),
+          utm_campaign: getSessionValue("aibos_utm_campaign"),
+          session_id: getSessionValue("aibos_session_id")
+        });
+      }
+    });
+
     form.addEventListener("submit", async function(event) {
       event.preventDefault();
 
@@ -1325,28 +1415,42 @@
       const consentChecked = document.getElementById("consent").checked;
       const websiteConfirm = document.getElementById("websiteConfirm").value.trim();
 
+      const timeline = document.getElementById("timeline").value;
+      const packageInterest = document.getElementById("packageInterest").value;
+      const budgetRange = document.getElementById("budgetRange").value;
+
       let website = document.getElementById("website").value.trim();
 
       formMessage.className = "form-message";
       formMessage.textContent = "";
 
       if (websiteConfirm) {
+        trackEvent("form_error", {
+          form_name: "marketing_audit_request",
+          error_reason: "honeypot_triggered",
+          page_url: window.location.href,
+          source: getTrafficSource(),
+          session_id: getSessionValue("aibos_session_id")
+        });
+
         return;
       }
 
       if (!fullName || !email || !businessName || !website || !marketingConcern || !consentChecked) {
-        showFormError("Please complete the required fields before sending.");
+        showFormError("Please complete the required fields before sending.", "missing_required_fields");
         return;
       }
 
       if (!isValidEmail(email)) {
-        showFormError("Please enter a valid email address.");
+        showFormError("Please enter a valid email address.", "invalid_email");
         return;
       }
 
       if (!website.startsWith("http://") && !website.startsWith("https://")) {
         website = "https://" + website;
       }
+
+      const leadPriority = getLeadPriorityForTracking(timeline, packageInterest, budgetRange);
 
       const formData = new URLSearchParams();
       formData.append("fullName", fullName);
@@ -1358,9 +1462,9 @@
       formData.append("businessGoal", document.getElementById("businessGoal").value);
       formData.append("marketingConcern", marketingConcern);
       formData.append("currentChannel", document.getElementById("currentChannel").value);
-      formData.append("budgetRange", document.getElementById("budgetRange").value);
-      formData.append("timeline", document.getElementById("timeline").value);
-      formData.append("packageInterest", document.getElementById("packageInterest").value);
+      formData.append("budgetRange", budgetRange);
+      formData.append("timeline", timeline);
+      formData.append("packageInterest", packageInterest);
       formData.append("contactMethod", document.getElementById("contactMethod").value);
       formData.append("consent", consentChecked ? "Agreed" : "Not agreed");
       formData.append("websiteConfirm", websiteConfirm);
@@ -1393,18 +1497,33 @@
           body: formData
         });
 
+        trackEvent("audit_request_submitted", {
+          form_name: "marketing_audit_request",
+          page_url: window.location.href,
+          source: getTrafficSource(),
+          lead_priority: leadPriority,
+          package_interest: packageInterest || "Not selected",
+          timeline: timeline || "Not selected",
+          budget_range: budgetRange || "Not selected",
+          utm_source: getSessionValue("aibos_utm_source"),
+          utm_medium: getSessionValue("aibos_utm_medium"),
+          utm_campaign: getSessionValue("aibos_utm_campaign"),
+          utm_content: getSessionValue("aibos_utm_content"),
+          session_id: getSessionValue("aibos_session_id")
+        });
+
         form.reset();
         formMessage.className = "form-message success";
         formMessage.innerHTML = "Thank you. Your audit request has been received.<br><br>We’ll review your website, marketing concern, and tracking setup. If your request is a good fit, we’ll contact you with the next step.";
 
       } catch (error) {
-        formMessage.className = "form-message error";
-        formMessage.textContent = "Something went wrong. Please email dantefabillar.media@gmail.com directly.";
+        showFormError("Something went wrong. Please email dantefabillar.media@gmail.com directly.", "fetch_error");
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = "Send Audit Request";
       }
     });
   </script>
+
 </body>
 </html>
