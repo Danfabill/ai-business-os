@@ -915,7 +915,7 @@
 
             <label>
               Website link
-              <input type="url" id="website" placeholder="https://yourwebsite.com" required>
+              <input type="text" id="website" placeholder="yourwebsite.com" required>
             </label>
 
             <label>
@@ -942,8 +942,12 @@
       event.preventDefault();
 
       const name = document.getElementById("name").value.trim();
-      const website = document.getElementById("website").value.trim();
+      let website = document.getElementById("website").value.trim();
       const concern = document.getElementById("concern").value.trim();
+
+      if (!website.startsWith("http://") && !website.startsWith("https://")) {
+        website = "https://" + website;
+      }
 
       const subject = encodeURIComponent("Marketing Audit Request");
       const body = encodeURIComponent(
