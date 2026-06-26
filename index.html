@@ -1205,6 +1205,26 @@
     const submitButton = document.getElementById("submitButton");
     const formMessage = document.getElementById("formMessage");
 
+    const urlParams = new URLSearchParams(window.location.search);
+
+    function getTrafficSource() {
+      const utmSource = urlParams.get("utm_source");
+
+      if (utmSource) {
+        return utmSource;
+      }
+
+      if (document.referrer) {
+        try {
+          return new URL(document.referrer).hostname;
+        } catch (error) {
+          return document.referrer;
+        }
+      }
+
+      return "Direct / Website";
+    }
+
     form.addEventListener("submit", async function(event) {
       event.preventDefault();
 
@@ -1229,8 +1249,16 @@
       formData.append("packageInterest", document.getElementById("packageInterest").value);
       formData.append("contactMethod", document.getElementById("contactMethod").value);
       formData.append("consent", document.getElementById("consent").checked ? "Agreed" : "Not agreed");
-      formData.append("source", "AI Business OS Website");
+
+      formData.append("source", getTrafficSource());
       formData.append("pageUrl", window.location.href);
+
+      formData.append("utmSource", urlParams.get("utm_source") || "");
+      formData.append("utmMedium", urlParams.get("utm_medium") || "");
+      formData.append("utmCampaign", urlParams.get("utm_campaign") || "");
+      formData.append("utmTerm", urlParams.get("utm_term") || "");
+      formData.append("utmContent", urlParams.get("utm_content") || "");
+      formData.append("referrer", document.referrer || "");
 
       submitButton.disabled = true;
       submitButton.textContent = "Sending...";
