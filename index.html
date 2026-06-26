@@ -1176,7 +1176,7 @@
 
         form.reset();
         formMessage.className = "form-message success";
-        formMessage.textContent = "Thank you. Your audit request has been sent successfully.";
+        formMessage.innerHTML = "Thank you. Your audit request has been received.<br><br>We’ll review your website, marketing concern, and tracking setup. If your request is a good fit, we’ll contact you with the next step.";
 
       } catch (error) {
         formMessage.className = "form-message error";
