@@ -482,6 +482,11 @@
       box-shadow: var(--shadow);
     }
 
+    .contact-info {
+      position: sticky;
+      top: 110px;
+    }
+
     .next-box {
       margin-top: 28px;
       padding: 22px;
@@ -664,6 +669,10 @@
       .pricing,
       .contact-grid {
         grid-template-columns: 1fr;
+      }
+
+      .contact-info {
+        position: static;
       }
 
       .hero {
@@ -997,7 +1006,7 @@
     <section id="contact">
       <div class="container">
         <div class="contact-grid">
-          <div>
+          <div class="contact-info">
             <div class="section-label">Start Here</div>
             <h2 class="section-title">Request a focused marketing audit.</h2>
             <p class="section-subtitle">
