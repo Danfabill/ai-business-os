@@ -3,21 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>AI Business OS | Marketing Systems for Small Businesses</title>
   <meta name="description" content="AI-assisted marketing audits, tracking setup, SEO improvements, reporting, and automation systems for small businesses." />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #0b1020;
+      --card: rgba(255, 255, 255, 0.055);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text: #f8fafc;
+      --muted: #aab6c7;
+      --blue: #38bdf8;
+      --blue-dark: #0284c7;
+      --green: #22c55e;
+      --shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+      --radius: 24px;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #f8fafc;
+      font-family: "Inter", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(34, 197, 94, 0.10), transparent 28%),
+        var(--bg);
+      color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     a {
@@ -31,127 +58,273 @@
     }
 
     header {
-      padding: 24px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(5, 8, 22, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     nav {
+      height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
     .logo {
-      font-weight: 700;
       font-size: 20px;
-      letter-spacing: -0.4px;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+    }
+
+    .logo span {
+      color: var(--blue);
     }
 
     .nav-links {
       display: flex;
-      gap: 22px;
+      align-items: center;
+      gap: 26px;
+      color: var(--muted);
       font-size: 14px;
-      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-cta {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      color: #e0f2fe;
+      border: 1px solid rgba(56, 189, 248, 0.25);
     }
 
     .hero {
-      padding: 96px 0 72px;
+      min-height: calc(100vh - 76px);
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 48px;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 54px;
       align-items: center;
+      padding: 86px 0;
     }
 
     .badge {
-      display: inline-block;
-      margin-bottom: 18px;
-      padding: 8px 12px;
-      border: 1px solid rgba(56,189,248,0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      padding: 9px 14px;
       border-radius: 999px;
-      color: #7dd3fc;
-      background: rgba(14,165,233,0.08);
+      color: #bae6fd;
+      background: rgba(56, 189, 248, 0.10);
+      border: 1px solid rgba(56, 189, 248, 0.22);
       font-size: 14px;
+      font-weight: 700;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 18px var(--green);
     }
 
     h1 {
-      font-size: clamp(40px, 6vw, 68px);
-      line-height: 1.05;
-      letter-spacing: -2px;
-      margin-bottom: 22px;
+      font-size: clamp(44px, 7vw, 78px);
+      line-height: 0.98;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
     }
 
-    .hero p {
+    .gradient-text {
+      background: linear-gradient(135deg, #f8fafc, #7dd3fc, #22c55e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-text {
+      max-width: 670px;
+      color: var(--muted);
       font-size: 18px;
-      color: #cbd5e1;
-      max-width: 680px;
-      margin-bottom: 30px;
+      margin-bottom: 34px;
     }
 
     .buttons {
       display: flex;
       gap: 14px;
       flex-wrap: wrap;
+      margin-bottom: 34px;
     }
 
     .btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
       padding: 14px 20px;
-      border-radius: 12px;
-      font-weight: 700;
+      border-radius: 14px;
+      font-weight: 800;
       font-size: 15px;
+      transition: all 0.28s ease;
     }
 
     .btn-primary {
-      background: #38bdf8;
-      color: #082f49;
+      background: linear-gradient(135deg, var(--blue), #67e8f9);
+      color: #032336;
+      box-shadow: 0 16px 38px rgba(56, 189, 248, 0.22);
     }
 
     .btn-secondary {
-      border: 1px solid rgba(255,255,255,0.16);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.04);
       color: #e2e8f0;
     }
 
-    .card {
-      background: rgba(15,23,42,0.8);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 55px rgba(56, 189, 248, 0.18);
     }
 
-    .card h3 {
-      margin-bottom: 16px;
-      font-size: 22px;
+    .trust-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 600;
     }
 
-    .checklist {
-      list-style: none;
+    .trust-row span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-panel {
+      position: relative;
+      padding: 1px;
+      border-radius: 30px;
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.45), rgba(255, 255, 255, 0.08), rgba(34, 197, 94, 0.25));
+      box-shadow: var(--shadow);
+    }
+
+    .dashboard-card {
+      background: rgba(11, 16, 32, 0.92);
+      border-radius: 30px;
+      padding: 26px;
+      overflow: hidden;
+    }
+
+    .dashboard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .status {
+      color: #86efac;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.28s ease;
+    }
+
+    .metric:hover {
+      transform: translateY(-5px);
+      border-color: rgba(56, 189, 248, 0.35);
+    }
+
+    .metric small {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 26px;
+      letter-spacing: -1px;
+    }
+
+    .audit-list {
       display: grid;
       gap: 12px;
-      color: #cbd5e1;
+      margin-top: 20px;
     }
 
-    .checklist li::before {
-      content: "✓";
-      color: #38bdf8;
-      margin-right: 10px;
-      font-weight: bold;
+    .audit-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .audit-item b {
+      color: var(--text);
+    }
+
+    .score {
+      color: #7dd3fc;
+      font-weight: 900;
     }
 
     section {
-      padding: 72px 0;
+      padding: 82px 0;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 38px;
+    }
+
+    .section-label {
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
 
     .section-title {
-      font-size: 36px;
-      letter-spacing: -1px;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.08;
+      letter-spacing: -1.7px;
       margin-bottom: 14px;
     }
 
     .section-subtitle {
-      color: #cbd5e1;
-      max-width: 720px;
-      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: 17px;
     }
 
     .grid {
@@ -160,96 +333,217 @@
       gap: 20px;
     }
 
-    .service-card {
-      background: #111c33;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 24px;
+    .card {
+      padding: 26px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      transition: all 0.3s ease;
     }
 
-    .service-card h3 {
-      margin-bottom: 10px;
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(56, 189, 248, 0.42);
+      background: rgba(255, 255, 255, 0.075);
+      box-shadow: 0 24px 70px rgba(56, 189, 248, 0.11);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      background: rgba(56, 189, 248, 0.13);
+      color: #7dd3fc;
+      font-size: 22px;
+    }
+
+    .card h3 {
       font-size: 20px;
+      margin-bottom: 10px;
+      letter-spacing: -0.4px;
     }
 
-    .service-card p {
-      color: #cbd5e1;
+    .card p,
+    .card li {
+      color: var(--muted);
       font-size: 15px;
     }
 
     .pricing {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 22px;
     }
 
     .price-card {
-      background: #111c33;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 26px;
+      position: relative;
+      padding: 30px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      transition: all 0.3s ease;
     }
 
-    .price-card.featured {
-      border-color: rgba(56,189,248,0.6);
-      background: linear-gradient(180deg, rgba(56,189,248,0.12), #111c33);
+    .price-card:hover {
+      transform: translateY(-9px);
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 28px 80px rgba(56, 189, 248, 0.12);
+    }
+
+    .featured {
+      background:
+        linear-gradient(180deg, rgba(56, 189, 248, 0.16), rgba(255, 255, 255, 0.055));
+      border-color: rgba(56, 189, 248, 0.42);
+    }
+
+    .popular {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.14);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.25);
     }
 
     .price {
-      font-size: 34px;
-      font-weight: 800;
-      margin: 14px 0;
+      font-size: 40px;
+      font-weight: 900;
+      margin: 16px 0;
+      letter-spacing: -1.4px;
     }
 
     .price small {
       font-size: 14px;
-      color: #94a3b8;
-      font-weight: 400;
+      color: var(--muted);
+      font-weight: 600;
     }
 
     .price-card ul {
       list-style: none;
       display: grid;
-      gap: 10px;
-      color: #cbd5e1;
-      margin: 18px 0 24px;
-      font-size: 15px;
+      gap: 11px;
+      margin: 22px 0 28px;
     }
 
     .price-card li::before {
       content: "✓";
-      color: #38bdf8;
-      margin-right: 8px;
+      margin-right: 10px;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .process {
+      counter-reset: step;
+    }
+
+    .process .card {
+      position: relative;
+    }
+
+    .process .card::before {
+      counter-increment: step;
+      content: "0" counter(step);
+      position: absolute;
+      top: 22px;
+      right: 24px;
+      color: rgba(125, 211, 252, 0.32);
+      font-weight: 900;
+      font-size: 36px;
     }
 
     .cta {
-      background: linear-gradient(135deg, rgba(56,189,248,0.14), rgba(14,165,233,0.04));
-      border: 1px solid rgba(56,189,248,0.2);
-      border-radius: 28px;
-      padding: 42px;
       text-align: center;
+      padding: 58px 34px;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at top, rgba(56, 189, 248, 0.22), transparent 42%),
+        rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      box-shadow: var(--shadow);
+    }
+
+    .cta .section-subtitle {
+      max-width: 660px;
+      margin: 0 auto 28px;
     }
 
     footer {
-      padding: 32px 0;
+      padding: 34px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       color: #94a3b8;
-      border-top: 1px solid rgba(255,255,255,0.08);
       font-size: 14px;
     }
 
-    @media (max-width: 850px) {
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
       .hero,
       .grid,
       .pricing {
         grid-template-columns: 1fr;
       }
 
+      .hero {
+        padding: 64px 0;
+        min-height: auto;
+      }
+
       .nav-links {
         display: none;
       }
 
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      nav {
+        height: 68px;
+      }
+
       .hero {
-        padding-top: 64px;
+        padding: 46px 0;
+      }
+
+      .buttons,
+      .btn {
+        width: 100%;
+      }
+
+      .btn {
+        text-align: center;
+      }
+
+      .dashboard-card,
+      .price-card,
+      .card,
+      .cta {
+        padding: 22px;
+      }
+
+      section {
+        padding: 58px 0;
+      }
+
+      .footer-inner {
+        display: grid;
       }
     }
   </style>
@@ -259,12 +553,13 @@
   <header>
     <div class="container">
       <nav>
-        <div class="logo">AI Business OS</div>
+        <a href="#" class="logo">AI Business <span>OS</span></a>
+
         <div class="nav-links">
           <a href="#services">Services</a>
           <a href="#packages">Packages</a>
           <a href="#process">Process</a>
-          <a href="#contact">Contact</a>
+          <a href="#contact" class="nav-cta">Start Audit</a>
         </div>
       </nav>
     </div>
@@ -273,66 +568,123 @@
   <main>
     <section class="hero container">
       <div>
-        <span class="badge">AI-assisted marketing systems for small businesses</span>
-        <h1>Turn messy marketing into a clear growth system.</h1>
-        <p>
+        <div class="badge">
+          <span class="badge-dot"></span>
+          AI-assisted marketing systems for small businesses
+        </div>
+
+        <h1>
+          Turn messy marketing into a
+          <span class="gradient-text">clear growth system.</span>
+        </h1>
+
+        <p class="hero-text">
           We help small businesses find what is blocking their leads, traffic, tracking, and sales —
-          then build a simple system for audits, reporting, automation, and monthly growth.
+          then build simple systems for audits, reporting, automation, and monthly growth.
         </p>
+
         <div class="buttons">
           <a href="#contact" class="btn btn-primary">Request a Marketing Audit</a>
           <a href="#packages" class="btn btn-secondary">View Packages</a>
         </div>
+
+        <div class="trust-row">
+          <span>SEO Audit</span>
+          <span>GA4 Tracking</span>
+          <span>Ads Review</span>
+          <span>Automation</span>
+        </div>
       </div>
 
-      <div class="card">
-        <h3>Your first audit checks:</h3>
-        <ul class="checklist">
-          <li>Website structure and conversion issues</li>
-          <li>SEO basics and missed search opportunities</li>
-          <li>Tracking setup for GA4, pixels, and ads</li>
-          <li>Landing page clarity and call-to-action flow</li>
-          <li>Simple next steps for traffic and lead growth</li>
-        </ul>
+      <div class="hero-panel">
+        <div class="dashboard-card">
+          <div class="dashboard-top">
+            <strong>Marketing System Snapshot</strong>
+            <span class="status">Live Audit</span>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric">
+              <small>Tracking Clarity</small>
+              <strong>87%</strong>
+            </div>
+            <div class="metric">
+              <small>SEO Health</small>
+              <strong>74%</strong>
+            </div>
+            <div class="metric">
+              <small>Lead Flow</small>
+              <strong>62%</strong>
+            </div>
+            <div class="metric">
+              <small>Fix Priority</small>
+              <strong>High</strong>
+            </div>
+          </div>
+
+          <div class="audit-list">
+            <div class="audit-item">
+              <span><b>GA4 Events</b><br>Missing lead conversion tracking</span>
+              <span class="score">Fix</span>
+            </div>
+            <div class="audit-item">
+              <span><b>Landing Page</b><br>CTA needs stronger above-the-fold clarity</span>
+              <span class="score">High</span>
+            </div>
+            <div class="audit-item">
+              <span><b>SEO</b><br>Local service keywords not fully targeted</span>
+              <span class="score">Medium</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="services">
       <div class="container">
-        <h2 class="section-title">What we help with</h2>
-        <p class="section-subtitle">
-          Built for business owners who want clearer marketing, better tracking, and practical growth support without overcomplicated agency talk.
-        </p>
+        <div class="section-head">
+          <div class="section-label">Services</div>
+          <h2 class="section-title">Everything a small business needs to understand and improve marketing.</h2>
+          <p class="section-subtitle">
+            Clear support for owners who want better tracking, stronger pages, cleaner reports, and practical growth without confusing agency language.
+          </p>
+        </div>
 
         <div class="grid">
-          <div class="service-card">
+          <div class="card">
+            <div class="icon">◎</div>
             <h3>Marketing Audit</h3>
-            <p>We review your website, SEO, tracking, ads, and lead flow to find the biggest problems blocking growth.</p>
+            <p>Review your website, SEO, ads, tracking, and lead flow to find what is blocking growth.</p>
           </div>
 
-          <div class="service-card">
+          <div class="card">
+            <div class="icon">◈</div>
             <h3>Tracking Setup</h3>
-            <p>We help set up or clean GA4, Meta Pixel, Google Ads tracking, events, and conversion reporting.</p>
+            <p>Clean GA4, Meta Pixel, Google Ads tracking, event setup, and conversion reporting.</p>
           </div>
 
-          <div class="service-card">
-            <h3>SEO & Website Fixes</h3>
-            <p>We improve page structure, titles, content clarity, local SEO basics, and lead-focused website sections.</p>
+          <div class="card">
+            <div class="icon">✦</div>
+            <h3>SEO Improvements</h3>
+            <p>Improve page titles, content clarity, local SEO structure, and search-focused sections.</p>
           </div>
 
-          <div class="service-card">
+          <div class="card">
+            <div class="icon">▣</div>
             <h3>Client Reporting</h3>
-            <p>We turn marketing data into simple reports that show what happened, why it matters, and what to do next.</p>
+            <p>Turn marketing data into simple reports showing what happened, why it matters, and what to do next.</p>
           </div>
 
-          <div class="service-card">
+          <div class="card">
+            <div class="icon">↻</div>
             <h3>Automation Systems</h3>
-            <p>We create AI-assisted workflows for follow-ups, reports, lead tracking, and task management.</p>
+            <p>Build AI-assisted workflows for follow-ups, reporting, lead tracking, and task management.</p>
           </div>
 
-          <div class="service-card">
+          <div class="card">
+            <div class="icon">✓</div>
             <h3>Monthly Support</h3>
-            <p>We help maintain and improve your marketing system month by month with clear priorities.</p>
+            <p>Maintain and improve your marketing system every month with clear priorities and action steps.</p>
           </div>
         </div>
       </div>
@@ -340,10 +692,13 @@
 
     <section id="packages">
       <div class="container">
-        <h2 class="section-title">Starter packages</h2>
-        <p class="section-subtitle">
-          Simple starting packages for small businesses. Pricing can be adjusted based on scope.
-        </p>
+        <div class="section-head">
+          <div class="section-label">Packages</div>
+          <h2 class="section-title">Start simple. Fix what matters first.</h2>
+          <p class="section-subtitle">
+            These are starter packages. Final pricing can adjust based on website size, tracking needs, and monthly scope.
+          </p>
+        </div>
 
         <div class="pricing">
           <div class="price-card">
@@ -353,12 +708,13 @@
               <li>Website audit</li>
               <li>SEO quick check</li>
               <li>Tracking review</li>
-              <li>Action plan</li>
+              <li>Priority action plan</li>
             </ul>
             <a href="#contact" class="btn btn-secondary">Start with Audit</a>
           </div>
 
           <div class="price-card featured">
+            <div class="popular">Most Useful</div>
             <h3>Growth Setup</h3>
             <div class="price">$297 <small>one-time</small></div>
             <ul>
@@ -385,27 +741,30 @@
       </div>
     </section>
 
-    <section id="process">
+    <section id="process" class="process">
       <div class="container">
-        <h2 class="section-title">Simple process</h2>
-        <p class="section-subtitle">
-          We keep the process clear: audit first, fix the biggest issues, then automate what works.
-        </p>
+        <div class="section-head">
+          <div class="section-label">Process</div>
+          <h2 class="section-title">A simple path from confusion to clarity.</h2>
+          <p class="section-subtitle">
+            The goal is not to do everything at once. The goal is to find the highest-value problems, fix them, then build systems around what works.
+          </p>
+        </div>
 
         <div class="grid">
-          <div class="service-card">
-            <h3>1. Review</h3>
-            <p>We check your website, tracking, ads, and current marketing setup.</p>
+          <div class="card">
+            <h3>Review</h3>
+            <p>We check your website, analytics, ads, SEO, lead flow, and current marketing setup.</p>
           </div>
 
-          <div class="service-card">
-            <h3>2. Prioritize</h3>
-            <p>We identify the few fixes that can make the biggest difference first.</p>
+          <div class="card">
+            <h3>Prioritize</h3>
+            <p>We identify the few fixes that can create the biggest improvement first.</p>
           </div>
 
-          <div class="service-card">
-            <h3>3. Build</h3>
-            <p>We improve the system with clearer reporting, better tracking, and automation.</p>
+          <div class="card">
+            <h3>Build</h3>
+            <p>We improve the system with better reporting, clearer tracking, stronger pages, and automation.</p>
           </div>
         </div>
       </div>
@@ -414,9 +773,10 @@
     <section id="contact">
       <div class="container">
         <div class="cta">
+          <div class="section-label">Start Here</div>
           <h2 class="section-title">Ready to find what is blocking your marketing?</h2>
-          <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">
-            Send your website link and we’ll review whether an audit is the right first step.
+          <p class="section-subtitle">
+            Send your website link and we’ll review whether a marketing audit is the right first step.
           </p>
           <a href="mailto:your-email@example.com" class="btn btn-primary">Email Us</a>
         </div>
@@ -425,8 +785,9 @@
   </main>
 
   <footer>
-    <div class="container">
-      © 2026 AI Business OS. Built for marketing systems, automation, and small business growth.
+    <div class="container footer-inner">
+      <span>© 2026 AI Business OS. All rights reserved.</span>
+      <span>Marketing systems • Automation • Reporting • Growth</span>
     </div>
   </footer>
 </body>
