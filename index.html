@@ -20,7 +20,6 @@
       --text: #f8fafc;
       --muted: #aab6c7;
       --blue: #38bdf8;
-      --blue-dark: #0284c7;
       --green: #22c55e;
       --red: #fb7185;
       --shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
@@ -515,8 +514,7 @@
       gap: 14px;
     }
 
-    .contact-form label,
-    .field-label {
+    .contact-form label {
       display: grid;
       gap: 8px;
       color: #dbeafe;
@@ -550,7 +548,7 @@
 
     .contact-form textarea {
       resize: vertical;
-      min-height: 130px;
+      min-height: 120px;
     }
 
     .contact-form input::placeholder,
@@ -565,15 +563,8 @@
       box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.10);
     }
 
-    .checkbox-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .checkbox-item,
     .consent-row {
-      display: flex;
+      display: flex !important;
       align-items: flex-start;
       gap: 10px;
       padding: 11px 12px;
@@ -585,7 +576,6 @@
       font-weight: 700;
     }
 
-    .checkbox-item input,
     .consent-row input {
       width: auto;
       margin-top: 3px;
@@ -679,10 +669,6 @@
       .contact-grid,
       .contact-form {
         padding: 22px;
-      }
-
-      .checkbox-grid {
-        grid-template-columns: 1fr;
       }
 
       section {
@@ -990,68 +976,92 @@
             <div class="form-row">
               <label>
                 Full name
-                <input type="text" id="fullName" name="fullName" placeholder="John Smith" required>
+                <input type="text" id="fullName" name="fullName" placeholder="John Smith" autocomplete="name" required>
               </label>
 
               <label>
                 Email address
-                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                <input type="email" id="email" name="email" placeholder="john@example.com" autocomplete="email" required>
               </label>
             </div>
+
+            <div class="form-row">
+              <label>
+                Business name
+                <input type="text" id="businessName" name="businessName" placeholder="Your Business Name" autocomplete="organization" required>
+              </label>
+
+              <label>
+                Website link
+                <input type="text" id="website" name="website" placeholder="yourwebsite.com" autocomplete="url" required>
+              </label>
+            </div>
+
+            <label>
+              Main marketing concern
+              <textarea id="marketingConcern" name="marketingConcern" rows="4" placeholder="Example: We get traffic but not enough leads, and we are not sure if tracking is working..." required></textarea>
+            </label>
 
             <div class="form-row">
               <label>
                 Phone / WhatsApp <span class="optional">Optional</span>
-                <input type="text" id="phone" name="phone" placeholder="+63 912 345 6789">
+                <input type="text" id="phone" name="phone" placeholder="+63 912 345 6789" autocomplete="tel">
               </label>
 
               <label>
-                Business name
-                <input type="text" id="businessName" name="businessName" placeholder="Your Business Name" required>
+                Industry <span class="optional">Optional</span>
+                <select id="industry" name="industry">
+                  <option value="">Select industry</option>
+                  <option value="Local Service">Local Service</option>
+                  <option value="Healthcare / Clinic">Healthcare / Clinic</option>
+                  <option value="Law Firm / Professional Service">Law Firm / Professional Service</option>
+                  <option value="Real Estate">Real Estate</option>
+                  <option value="E-commerce">E-commerce</option>
+                  <option value="Education / Training">Education / Training</option>
+                  <option value="Restaurant / Food">Restaurant / Food</option>
+                  <option value="Beauty / Wellness">Beauty / Wellness</option>
+                  <option value="Other">Other</option>
+                </select>
               </label>
             </div>
 
             <div class="form-row">
               <label>
-                Website link
-                <input type="text" id="website" name="website" placeholder="yourwebsite.com" required>
+                Main business goal <span class="optional">Optional</span>
+                <select id="businessGoal" name="businessGoal">
+                  <option value="">Select goal</option>
+                  <option value="Get more qualified leads">Get more qualified leads</option>
+                  <option value="Get more bookings">Get more bookings</option>
+                  <option value="Increase online sales">Increase online sales</option>
+                  <option value="Improve SEO traffic">Improve SEO traffic</option>
+                  <option value="Improve tracking and reporting">Improve tracking and reporting</option>
+                  <option value="Reduce ad waste">Reduce ad waste</option>
+                  <option value="Not sure yet">Not sure yet</option>
+                </select>
               </label>
 
               <label>
-                Industry <span class="optional">Optional</span>
-                <input type="text" id="industry" name="industry" placeholder="Clinic, law firm, e-commerce, real estate...">
+                Current marketing channel <span class="optional">Optional</span>
+                <select id="currentChannel" name="currentChannel">
+                  <option value="">Select channel</option>
+                  <option value="Website only">Website only</option>
+                  <option value="SEO">SEO</option>
+                  <option value="Google Ads">Google Ads</option>
+                  <option value="Meta Ads">Meta Ads</option>
+                  <option value="TikTok / Short-form content">TikTok / Short-form content</option>
+                  <option value="Social Media">Social Media</option>
+                  <option value="Email Marketing">Email Marketing</option>
+                  <option value="Referrals">Referrals</option>
+                  <option value="Not sure">Not sure</option>
+                </select>
               </label>
-            </div>
-
-            <label>
-              Main business goal
-              <input type="text" id="businessGoal" name="businessGoal" placeholder="Example: Get more qualified leads every month" required>
-            </label>
-
-            <label>
-              Main marketing concern
-              <textarea id="marketingConcern" name="marketingConcern" rows="5" placeholder="Example: We get traffic but not enough leads, and we are not sure if tracking is working..." required></textarea>
-            </label>
-
-            <div class="field-label">
-              Current marketing channels
-              <div class="checkbox-grid">
-                <label class="checkbox-item"><input type="checkbox" name="channels" value="Website"> Website</label>
-                <label class="checkbox-item"><input type="checkbox" name="channels" value="SEO"> SEO</label>
-                <label class="checkbox-item"><input type="checkbox" name="channels" value="Google Ads"> Google Ads</label>
-                <label class="checkbox-item"><input type="checkbox" name="channels" value="Meta Ads"> Meta Ads</label>
-                <label class="checkbox-item"><input type="checkbox" name="channels" value="Social Media"> Social Media</label>
-                <label class="checkbox-item"><input type="checkbox" name="channels" value="Email Marketing"> Email Marketing</label>
-                <label class="checkbox-item"><input type="checkbox" name="channels" value="Referrals"> Referrals</label>
-                <label class="checkbox-item"><input type="checkbox" name="channels" value="Not Sure"> Not sure</label>
-              </div>
             </div>
 
             <div class="form-row">
               <label>
                 Budget range <span class="optional">Optional</span>
                 <select id="budgetRange" name="budgetRange">
-                  <option value="">Select one</option>
+                  <option value="">Select budget</option>
                   <option value="Not currently spending">Not currently spending</option>
                   <option value="Under $300/month">Under $300/month</option>
                   <option value="$300-$1,000/month">$300-$1,000/month</option>
@@ -1064,7 +1074,7 @@
               <label>
                 Timeline <span class="optional">Optional</span>
                 <select id="timeline" name="timeline">
-                  <option value="">Select one</option>
+                  <option value="">Select timeline</option>
                   <option value="As soon as possible">As soon as possible</option>
                   <option value="This month">This month</option>
                   <option value="Within 1-3 months">Within 1-3 months</option>
@@ -1077,7 +1087,7 @@
               <label>
                 Package interest <span class="optional">Optional</span>
                 <select id="packageInterest" name="packageInterest">
-                  <option value="">Select one</option>
+                  <option value="">Select package</option>
                   <option value="Audit">Audit</option>
                   <option value="Growth Setup">Growth Setup</option>
                   <option value="Monthly Support">Monthly Support</option>
@@ -1088,7 +1098,7 @@
               <label>
                 Preferred contact method <span class="optional">Optional</span>
                 <select id="contactMethod" name="contactMethod">
-                  <option value="">Select one</option>
+                  <option value="">Select contact method</option>
                   <option value="Email">Email</option>
                   <option value="WhatsApp">WhatsApp</option>
                   <option value="Messenger">Messenger</option>
@@ -1128,15 +1138,6 @@
     form.addEventListener("submit", async function(event) {
       event.preventDefault();
 
-      const channels = Array.from(document.querySelectorAll('input[name="channels"]:checked'))
-        .map(channel => channel.value);
-
-      if (channels.length === 0) {
-        formMessage.className = "form-message error";
-        formMessage.textContent = "Please select at least one current marketing channel.";
-        return;
-      }
-
       let website = document.getElementById("website").value.trim();
 
       if (!website.startsWith("http://") && !website.startsWith("https://")) {
@@ -1149,10 +1150,10 @@
       formData.append("phone", document.getElementById("phone").value.trim());
       formData.append("businessName", document.getElementById("businessName").value.trim());
       formData.append("website", website);
-      formData.append("industry", document.getElementById("industry").value.trim());
-      formData.append("businessGoal", document.getElementById("businessGoal").value.trim());
+      formData.append("industry", document.getElementById("industry").value);
+      formData.append("businessGoal", document.getElementById("businessGoal").value);
       formData.append("marketingConcern", document.getElementById("marketingConcern").value.trim());
-      formData.append("channels", channels.join(", "));
+      formData.append("currentChannel", document.getElementById("currentChannel").value);
       formData.append("budgetRange", document.getElementById("budgetRange").value);
       formData.append("timeline", document.getElementById("timeline").value);
       formData.append("packageInterest", document.getElementById("packageInterest").value);
