@@ -567,6 +567,16 @@
       font-weight: 800;
     }
 
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
     .optional {
       color: #7dd3fc;
       font-size: 12px;
@@ -1177,6 +1187,11 @@
               </label>
             </div>
 
+            <label class="hp-field" aria-hidden="true">
+              Website confirmation
+              <input type="text" id="websiteConfirm" name="websiteConfirm" autocomplete="off" tabindex="-1">
+            </label>
+
             <label class="consent-row">
               <input type="checkbox" id="consent" name="consent" value="Agreed" required>
               I agree to be contacted about my marketing audit request.
@@ -1257,6 +1272,15 @@
       return "Other";
     }
 
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function showFormError(message) {
+      formMessage.className = "form-message error";
+      formMessage.textContent = message;
+    }
+
     if (!getSessionValue("aibos_session_id")) {
       sessionStorage.setItem("aibos_session_id", createSessionId());
     }
@@ -1294,27 +1318,52 @@
     form.addEventListener("submit", async function(event) {
       event.preventDefault();
 
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const businessName = document.getElementById("businessName").value.trim();
+      const marketingConcern = document.getElementById("marketingConcern").value.trim();
+      const consentChecked = document.getElementById("consent").checked;
+      const websiteConfirm = document.getElementById("websiteConfirm").value.trim();
+
       let website = document.getElementById("website").value.trim();
+
+      formMessage.className = "form-message";
+      formMessage.textContent = "";
+
+      if (websiteConfirm) {
+        return;
+      }
+
+      if (!fullName || !email || !businessName || !website || !marketingConcern || !consentChecked) {
+        showFormError("Please complete the required fields before sending.");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showFormError("Please enter a valid email address.");
+        return;
+      }
 
       if (!website.startsWith("http://") && !website.startsWith("https://")) {
         website = "https://" + website;
       }
 
       const formData = new URLSearchParams();
-      formData.append("fullName", document.getElementById("fullName").value.trim());
-      formData.append("email", document.getElementById("email").value.trim());
+      formData.append("fullName", fullName);
+      formData.append("email", email);
       formData.append("phone", document.getElementById("phone").value.trim());
-      formData.append("businessName", document.getElementById("businessName").value.trim());
+      formData.append("businessName", businessName);
       formData.append("website", website);
       formData.append("industry", document.getElementById("industry").value);
       formData.append("businessGoal", document.getElementById("businessGoal").value);
-      formData.append("marketingConcern", document.getElementById("marketingConcern").value.trim());
+      formData.append("marketingConcern", marketingConcern);
       formData.append("currentChannel", document.getElementById("currentChannel").value);
       formData.append("budgetRange", document.getElementById("budgetRange").value);
       formData.append("timeline", document.getElementById("timeline").value);
       formData.append("packageInterest", document.getElementById("packageInterest").value);
       formData.append("contactMethod", document.getElementById("contactMethod").value);
-      formData.append("consent", document.getElementById("consent").checked ? "Agreed" : "Not agreed");
+      formData.append("consent", consentChecked ? "Agreed" : "Not agreed");
+      formData.append("websiteConfirm", websiteConfirm);
 
       formData.append("source", getTrafficSource());
       formData.append("pageUrl", window.location.href);
@@ -1336,8 +1385,6 @@
 
       submitButton.disabled = true;
       submitButton.textContent = "Sending...";
-      formMessage.className = "form-message";
-      formMessage.textContent = "";
 
       try {
         await fetch(scriptURL, {
