@@ -471,9 +471,9 @@
 
     .contact-grid {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-columns: 0.85fr 1.15fr;
       gap: 34px;
-      align-items: center;
+      align-items: start;
       padding: 42px;
       border-radius: 34px;
       background:
@@ -509,7 +509,14 @@
       border: 1px solid rgba(255, 255, 255, 0.10);
     }
 
-    .contact-form label {
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .contact-form label,
+    .field-label {
       display: grid;
       gap: 8px;
       color: #dbeafe;
@@ -517,8 +524,15 @@
       font-weight: 800;
     }
 
+    .optional {
+      color: #7dd3fc;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
     .contact-form input,
-    .contact-form textarea {
+    .contact-form textarea,
+    .contact-form select {
       width: 100%;
       padding: 14px 15px;
       border-radius: 14px;
@@ -528,6 +542,10 @@
       font: inherit;
       outline: none;
       transition: all 0.25s ease;
+    }
+
+    .contact-form select option {
+      color: #0f172a;
     }
 
     .contact-form textarea {
@@ -541,9 +559,37 @@
     }
 
     .contact-form input:focus,
-    .contact-form textarea:focus {
+    .contact-form textarea:focus,
+    .contact-form select:focus {
       border-color: rgba(56, 189, 248, 0.55);
       box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.10);
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .checkbox-item,
+    .consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 11px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .checkbox-item input,
+    .consent-row input {
+      width: auto;
+      margin-top: 3px;
+      accent-color: var(--blue);
     }
 
     .form-message {
@@ -599,7 +645,8 @@
         display: none;
       }
 
-      .metric-grid {
+      .metric-grid,
+      .form-row {
         grid-template-columns: 1fr;
       }
 
@@ -632,6 +679,10 @@
       .contact-grid,
       .contact-form {
         padding: 22px;
+      }
+
+      .checkbox-grid {
+        grid-template-columns: 1fr;
       }
 
       section {
@@ -924,8 +975,7 @@
             <div class="section-label">Start Here</div>
             <h2 class="section-title">Request a focused marketing audit.</h2>
             <p class="section-subtitle">
-              Send your website link, current marketing concern, and main business goal.
-              We’ll review if a focused audit is the right first step.
+              Share the key details about your business so the audit request is clear enough to review properly.
             </p>
 
             <div class="contact-points">
@@ -937,22 +987,120 @@
           </div>
 
           <form class="contact-form" id="auditForm">
-            <label>
-              Your name
-              <input type="text" id="name" name="name" placeholder="John Smith" required>
-            </label>
+            <div class="form-row">
+              <label>
+                Full name
+                <input type="text" id="fullName" name="fullName" placeholder="John Smith" required>
+              </label>
+
+              <label>
+                Email address
+                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+              </label>
+            </div>
+
+            <div class="form-row">
+              <label>
+                Phone / WhatsApp <span class="optional">Optional</span>
+                <input type="text" id="phone" name="phone" placeholder="+63 912 345 6789">
+              </label>
+
+              <label>
+                Business name
+                <input type="text" id="businessName" name="businessName" placeholder="Your Business Name" required>
+              </label>
+            </div>
+
+            <div class="form-row">
+              <label>
+                Website link
+                <input type="text" id="website" name="website" placeholder="yourwebsite.com" required>
+              </label>
+
+              <label>
+                Industry <span class="optional">Optional</span>
+                <input type="text" id="industry" name="industry" placeholder="Clinic, law firm, e-commerce, real estate...">
+              </label>
+            </div>
 
             <label>
-              Website link
-              <input type="text" id="website" name="website" placeholder="yourwebsite.com" required>
+              Main business goal
+              <input type="text" id="businessGoal" name="businessGoal" placeholder="Example: Get more qualified leads every month" required>
             </label>
 
             <label>
               Main marketing concern
-              <textarea id="concern" name="concern" rows="5" placeholder="Example: We get traffic but not enough leads..." required></textarea>
+              <textarea id="marketingConcern" name="marketingConcern" rows="5" placeholder="Example: We get traffic but not enough leads, and we are not sure if tracking is working..." required></textarea>
             </label>
 
-            <input type="hidden" id="source" name="source" value="AI Business OS Website">
+            <div class="field-label">
+              Current marketing channels
+              <div class="checkbox-grid">
+                <label class="checkbox-item"><input type="checkbox" name="channels" value="Website"> Website</label>
+                <label class="checkbox-item"><input type="checkbox" name="channels" value="SEO"> SEO</label>
+                <label class="checkbox-item"><input type="checkbox" name="channels" value="Google Ads"> Google Ads</label>
+                <label class="checkbox-item"><input type="checkbox" name="channels" value="Meta Ads"> Meta Ads</label>
+                <label class="checkbox-item"><input type="checkbox" name="channels" value="Social Media"> Social Media</label>
+                <label class="checkbox-item"><input type="checkbox" name="channels" value="Email Marketing"> Email Marketing</label>
+                <label class="checkbox-item"><input type="checkbox" name="channels" value="Referrals"> Referrals</label>
+                <label class="checkbox-item"><input type="checkbox" name="channels" value="Not Sure"> Not sure</label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label>
+                Budget range <span class="optional">Optional</span>
+                <select id="budgetRange" name="budgetRange">
+                  <option value="">Select one</option>
+                  <option value="Not currently spending">Not currently spending</option>
+                  <option value="Under $300/month">Under $300/month</option>
+                  <option value="$300-$1,000/month">$300-$1,000/month</option>
+                  <option value="$1,000-$3,000/month">$1,000-$3,000/month</option>
+                  <option value="$3,000+/month">$3,000+/month</option>
+                  <option value="Not sure">Not sure</option>
+                </select>
+              </label>
+
+              <label>
+                Timeline <span class="optional">Optional</span>
+                <select id="timeline" name="timeline">
+                  <option value="">Select one</option>
+                  <option value="As soon as possible">As soon as possible</option>
+                  <option value="This month">This month</option>
+                  <option value="Within 1-3 months">Within 1-3 months</option>
+                  <option value="Just exploring">Just exploring</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="form-row">
+              <label>
+                Package interest <span class="optional">Optional</span>
+                <select id="packageInterest" name="packageInterest">
+                  <option value="">Select one</option>
+                  <option value="Audit">Audit</option>
+                  <option value="Growth Setup">Growth Setup</option>
+                  <option value="Monthly Support">Monthly Support</option>
+                  <option value="Not sure yet">Not sure yet</option>
+                </select>
+              </label>
+
+              <label>
+                Preferred contact method <span class="optional">Optional</span>
+                <select id="contactMethod" name="contactMethod">
+                  <option value="">Select one</option>
+                  <option value="Email">Email</option>
+                  <option value="WhatsApp">WhatsApp</option>
+                  <option value="Messenger">Messenger</option>
+                  <option value="Call">Call</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="consent-row">
+              <input type="checkbox" id="consent" name="consent" value="Agreed" required>
+              I agree to be contacted about my marketing audit request.
+            </label>
 
             <button type="submit" class="btn btn-primary" id="submitButton">Send Audit Request</button>
 
@@ -980,19 +1128,38 @@
     form.addEventListener("submit", async function(event) {
       event.preventDefault();
 
-      const name = document.getElementById("name").value.trim();
+      const channels = Array.from(document.querySelectorAll('input[name="channels"]:checked'))
+        .map(channel => channel.value);
+
+      if (channels.length === 0) {
+        formMessage.className = "form-message error";
+        formMessage.textContent = "Please select at least one current marketing channel.";
+        return;
+      }
+
       let website = document.getElementById("website").value.trim();
-      const concern = document.getElementById("concern").value.trim();
 
       if (!website.startsWith("http://") && !website.startsWith("https://")) {
         website = "https://" + website;
       }
 
       const formData = new URLSearchParams();
-      formData.append("name", name);
+      formData.append("fullName", document.getElementById("fullName").value.trim());
+      formData.append("email", document.getElementById("email").value.trim());
+      formData.append("phone", document.getElementById("phone").value.trim());
+      formData.append("businessName", document.getElementById("businessName").value.trim());
       formData.append("website", website);
-      formData.append("concern", concern);
+      formData.append("industry", document.getElementById("industry").value.trim());
+      formData.append("businessGoal", document.getElementById("businessGoal").value.trim());
+      formData.append("marketingConcern", document.getElementById("marketingConcern").value.trim());
+      formData.append("channels", channels.join(", "));
+      formData.append("budgetRange", document.getElementById("budgetRange").value);
+      formData.append("timeline", document.getElementById("timeline").value);
+      formData.append("packageInterest", document.getElementById("packageInterest").value);
+      formData.append("contactMethod", document.getElementById("contactMethod").value);
+      formData.append("consent", document.getElementById("consent").checked ? "Agreed" : "Not agreed");
       formData.append("source", "AI Business OS Website");
+      formData.append("pageUrl", window.location.href);
 
       submitButton.disabled = true;
       submitButton.textContent = "Sending...";
