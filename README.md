@@ -4,7 +4,7 @@ AI Business OS is a working project for building a modern marketing systems comp
 
 The first version is a public landing page for AI-assisted marketing audits, tracking reviews, SEO improvements, reporting systems, and automation support for small businesses.
 
-Live website: https://ai-business-os-eight.vercel.app
+Live website: https://ai-business-os-tool.vercel.app
 
 ## Current Focus
 
